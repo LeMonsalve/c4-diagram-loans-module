@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Onion Architecture Diagram</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #f0f2f5;
+        }
+
+        .container {
+            position: relative;
+            width: 800px;
+            height: 800px;
+        }
+
+        .layer {
+            position: absolute;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: white;
+            font-weight: bold;
+        }
+
+        .layer:hover {
+            opacity: 0.9;
+            transform: scale(1.02);
+        }
+
+        /* Infrastructure Layer */
+        .layer-1 {
+            width: 100%;
+            height: 100%;
+            background: #23A2D9;
+            z-index: 1;
+        }
+
+        /* Interface Layer */
+        .layer-2 {
+            width: 75%;
+            height: 75%;
+            background: #1061B0;
+            top: 12.5%;
+            left: 12.5%;
+            z-index: 2;
+        }
+
+        /* Application Layer */
+        .layer-3 {
+            width: 50%;
+            height: 50%;
+            background: #083F75;
+            top: 25%;
+            left: 25%;
+            z-index: 3;
+        }
+
+        /* Domain Layer */
+        .layer-4 {
+            width: 25%;
+            height: 25%;
+            background: #06315C;
+            top: 37.5%;
+            left: 37.5%;
+            z-index: 4;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .close-button {
+            position: absolute;
+            right: 1rem;
+            top: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .detail-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .detail-section h3 {
+            color: #1061B0;
+            margin-bottom: 0.5rem;
+        }
+
+        .detail-section ul {
+            list-style-type: disc;
+            margin-left: 1.5rem;
+        }
+
+        .detail-section li {
+            margin: 0.5rem 0;
+            color: #666;
+        }
+
+        h2 {
+            color: #06315C;
+            margin-bottom: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Layers -->
+        <div class="layer layer-1" onclick="showDetails('infrastructure')">Infrastructure Layer</div>
+        <div class="layer layer-2" onclick="showDetails('interface')">Interface Layer</div>
+        <div class="layer layer-3" onclick="showDetails('application')">Application Layer</div>
+        <div class="layer layer-4" onclick="showDetails('domain')">Domain Layer</div>
+
+        <!-- Modals -->
+        <div id="modal-infrastructure" class="modal">
+            <div class="modal-content">
+                <button class="close-button" onclick="hideModal('infrastructure')">&times;</button>
+                <h2>Infrastructure Layer</h2>
+                <div class="detail-section">
+                    <h3>Data Access</h3>
+                    <ul>
+                        <li>MySQL Database Configuration</li>
+                        <li>JPA/Hibernate Implementation</li>
+                        <li>Repository Implementations</li>
+                    </ul>
+                </div>
+                <div class="detail-section">
+                    <h3>Security</h3>
+                    <ul>
+                        <li>Spring Security Configuration</li>
+                        <li>Authentication Service</li>
+                        <li>Authorization Service</li>
+                    </ul>
+                </div>
+                <div class="detail-section">
+                    <h3>External Services</h3>
+                    <ul>
+                        <li>Email Service Implementation</li>
+                        <li>External APIs Integration</li>
+                        <li>File Storage Service</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="modal-interface" class="modal">
+            <div class="modal-content">
+                <button class="close-button" onclick="hideModal('interface')">&times;</button>
+                <h2>Interface Layer</h2>
+                <div class="detail-section">
+                    <h3>Repository Interfaces</h3>
+                    <ul>
+                        <li>ILoanRepository</li>
+                        <li>IUserRepository</li>
+                        <li>IClientRepository</li>
+                        <li>IPaymentRepository</li>
+                    </ul>
+                </div>
+                <div class="detail-section">
+                    <h3>Service Interfaces</h3>
+                    <ul>
+                        <li>ILoanService</li>
+                        <li>IUserService</li>
+                        <li>IClientService</li>
+                        <li>IPaymentService</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="modal-application" class="modal">
+            <div class="modal-content">
+                <button class="close-button" onclick="hideModal('application')">&times;</button>
+                <h2>Application Layer</h2>
+                <div class="detail-section">
+                    <h3>Service Implementations</h3>
+                    <ul>
+                        <li>LoanService: Loan processing logic</li>
+                        <li>UserService: User management</li>
+                        <li>ClientService: Client handling</li>
+                        <li>PaymentService: Payment processing</li>
+                    </ul>
+                </div>
+                <div class="detail-section">
+                    <h3>Use Cases</h3>
+                    <ul>
+                        <li>Create Loan Request</li>
+                        <li>Approve/Reject Loan</li>
+                        <li>Process Payment</li>
+                        <li>Generate Reports</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="modal-domain" class="modal">
+            <div class="modal-content">
+                <button class="close-button" onclick="hideModal('domain')">&times;</button>
+                <h2>Domain Layer</h2>
+                <div class="detail-section">
+                    <h3>Entities</h3>
+                    <ul>
+                        <li>Loan: Represents loan contract and terms</li>
+                        <li>User: System users (Admin, Analyst, Advisor)</li>
+                        <li>Client: Loan applicant information</li>
+                        <li>Payment: Loan payment records</li>
+                    </ul>
+                </div>
+                <div class="detail-section">
+                    <h3>Value Objects</h3>
+                    <ul>
+                        <li>Money: Amount with currency</li>
+                        <li>LoanStatus: Current state of loan</li>
+                        <li>UserRole: User permissions level</li>
+                        <li>PaymentStatus: State of payments</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showDetails(layer) {
+            document.getElementById(`modal-${layer}`).style.display = 'flex';
+        }
+
+        function hideModal(layer) {
+            document.getElementById(`modal-${layer}`).style.display = 'none';
+        }
+
+        // Cerrar modal cuando se hace clic fuera del contenido
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
